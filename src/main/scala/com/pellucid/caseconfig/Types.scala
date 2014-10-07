@@ -40,15 +40,7 @@ object Types {
     if (isCaseClass(tpe)) {
       CaseClassType(tpe)
     } else if (tpe.isSub[Option[Any]]) {
-      // Option.type.member("get").typeSignatureIn gives a paramaterless
-      // function to get the inner element (e.g., => String, not String)
-      val innerTpe = tpe.member(ru.newTermName("get")).typeSignatureIn(tpe)
-
-        // Extract the return value of the call-by-name function to get the
-        // actual inner type of the Option
-        .typeSymbol.asType.toType
-
-      OptionType(innerTpe)
+      OptionType(innerTpe(tpe, ru.newTermName("get")))
     } else if (tpe.is[String]) {
       StringType
     } else if (tpe.is[Int]) {
@@ -114,6 +106,11 @@ object Types {
 
   private def isCaseClass(tpe: ru.Type): Boolean =
     tpe.typeSymbol.asClass.isCaseClass
+
+  private def innerTpe(tpe: ru.Type, name: ru.Name) =
+    tpe.member(ru.newTermName("get")).typeSignatureIn(tpe)
+      .typeSymbol.asType.toType
+
 
   private def invokeDynamic(tpe: ru.Type, name: ru.Name, cl: ClassLoader, args: List[Any]): Any = {
     val cm = tpe.declaration(name).asMethod
