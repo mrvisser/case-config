@@ -90,7 +90,98 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
     OptionalList(Some(List[Number](0, 1.5, 2.4)))
   )
 
+  describe("get()") {
+
+    it("should not work on non-case class types") {
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[String])
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Int])
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Boolean])
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Duration])
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Number])
+
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[String]])
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Int]])
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Boolean]])
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Duration]])
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Number]])
+
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[String]])
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Int]])
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Boolean]])
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Duration]])
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Number]])
+
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[OptionalList[String]])
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[OptionalList[Int]])
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[OptionalList[Boolean]])
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[OptionalList[Duration]])
+      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[OptionalList[Number]])
+    }
+
+    it("should parse a case class from config recursively with all known simple types") {
+      config.getConfig("allSimpleTypes0").get[AllSimpleTypesRequired] should be(allSimpleTypes0Required)
+      config.getConfig("allSimpleTypes1").get[AllSimpleTypesRequired] should be(allSimpleTypes1Required)
+      config.getConfig("allWithCase0").get[AllSimpleTypesWithCaseRequired] should be(allWithCase0Required)
+      config.getConfig("allWithCase0").get[AllSimpleTypesWithCaseOptional] should be(allWithCase0Optional)
+    }
+
+    it("should parse an empty config into all optional values if allowed by config object") {
+      config.getConfig("empty").get[AllSimpleTypesOptional] should be(
+        AllSimpleTypesOptional(None, OptionalList(None), None, OptionalList(None), None, OptionalList(None), None, OptionalList(None), None, OptionalList(None))
+      )
+
+      config.getConfig("empty").get[AllSimpleTypesWithCaseOptional] should be(
+        AllSimpleTypesWithCaseOptional(None, OptionalList(None), None, OptionalList(None), None, OptionalList(None), None, OptionalList(None), None, OptionalList(None), None, OptionalList(None))
+      )
+    }
+
+    it("should throw a 'missing' config exception if required fields aren't specified") {
+      intercept[ConfigException.Missing](config.getConfig("empty").get[AllSimpleTypesRequired])
+    }
+
+    it("should throw a proper config exception if a field type is invalid") {
+      // TODO: Return an Either[E, T] instead of throwing an exception
+      intercept[ConfigException.WrongType](config.getConfig("invalidStringList").get[AllSimpleTypesOptional])
+      intercept[ConfigException.WrongType](config.getConfig("invalidInt").get[AllSimpleTypesOptional])
+      intercept[ConfigException.WrongType](config.getConfig("invalidIntList").get[AllSimpleTypesOptional])
+      intercept[ConfigException.WrongType](config.getConfig("invalidBoolean").get[AllSimpleTypesOptional])
+      intercept[ConfigException.WrongType](config.getConfig("invalidBooleanList").get[AllSimpleTypesOptional])
+      intercept[ConfigException.BadValue](config.getConfig("invalidDuration").get[AllSimpleTypesOptional])
+      intercept[ConfigException.BadValue](config.getConfig("invalidDurationList").get[AllSimpleTypesOptional])
+      intercept[ConfigException.WrongType](config.getConfig("invalidNumber").get[AllSimpleTypesOptional])
+      intercept[ConfigException.WrongType](config.getConfig("invalidNumberList").get[AllSimpleTypesOptional])
+      intercept[ConfigException.WrongType](config.getConfig("invalidAll").get[AllSimpleTypesWithCaseOptional])
+      intercept[ConfigException.WrongType](config.getConfig("invalidAllList").get[AllSimpleTypesWithCaseOptional])
+    }
+  }
+
   describe("get(String)") {
+
+    it("should parse a config path into simple types directly") {
+      config.get[String]("allSimpleTypes0.string") should be(allSimpleTypes0Required.string)
+      config.get[Int]("allSimpleTypes0.int") should be(allSimpleTypes0Required.int)
+      config.get[Boolean]("allSimpleTypes0.boolean") should be(allSimpleTypes0Required.boolean)
+      config.get[Duration]("allSimpleTypes0.duration") should be(allSimpleTypes0Required.duration)
+      config.get[Number]("allSimpleTypes0.number") should be(allSimpleTypes0Required.number)
+
+      config.get[Option[String]]("allSimpleTypes0.string") should be(allSimpleTypes0Optional.string)
+      config.get[Option[Int]]("allSimpleTypes0.int") should be(allSimpleTypes0Optional.int)
+      config.get[Option[Boolean]]("allSimpleTypes0.boolean") should be(allSimpleTypes0Optional.boolean)
+      config.get[Option[Duration]]("allSimpleTypes0.duration") should be(allSimpleTypes0Optional.duration)
+      config.get[Option[Number]]("allSimpleTypes0.number") should be(allSimpleTypes0Optional.number)
+
+      config.get[List[String]]("allSimpleTypes0.stringList") should be(allSimpleTypes0Required.stringList)
+      config.get[List[Int]]("allSimpleTypes0.intList") should be(allSimpleTypes0Required.intList)
+      config.get[List[Boolean]]("allSimpleTypes0.booleanList") should be(allSimpleTypes0Required.booleanList)
+      config.get[List[Duration]]("allSimpleTypes0.durationList") should be(allSimpleTypes0Required.durationList)
+      config.get[List[Number]]("allSimpleTypes0.numberList") should be(allSimpleTypes0Required.numberList)
+
+      config.get[OptionalList[String]]("allSimpleTypes0.stringList") should be(allSimpleTypes0Optional.stringList)
+      config.get[OptionalList[Int]]("allSimpleTypes0.intList") should be(allSimpleTypes0Optional.intList)
+      config.get[OptionalList[Boolean]]("allSimpleTypes0.booleanList") should be(allSimpleTypes0Optional.booleanList)
+      config.get[OptionalList[Duration]]("allSimpleTypes0.durationList") should be(allSimpleTypes0Optional.durationList)
+      config.get[OptionalList[Number]]("allSimpleTypes0.numberList") should be(allSimpleTypes0Optional.numberList)
+    }
 
     it("should parse a config recursively with all known simple types") {
       config.get[AllSimpleTypesRequired]("allSimpleTypes0") should be(allSimpleTypes0Required)
