@@ -1,5 +1,6 @@
 package com.pellucid
 
+import com.pellucid.caseconfig.types.Types
 import com.typesafe.config.Config
 import scala.reflect.runtime.{universe => ru}
 
@@ -31,6 +32,6 @@ package object caseconfig {
    */
   implicit class TypelevelConfig2CaseConfig(config: Config) {
     def get[T: ru.TypeTag](path: String): T =
-      Types.fromTpe(ru.weakTypeOf[T]).get(config, path).asInstanceOf[T]
+      Types.fromTpe(ru.typeOf[T]).get(config, path).asInstanceOf[T]
   }
 }
