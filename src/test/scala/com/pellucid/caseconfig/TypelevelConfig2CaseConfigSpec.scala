@@ -127,6 +127,10 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
       intercept[ConfigException.WrongType](config.get[AllSimpleTypesWithCaseOptional]("invalidAll"))
       intercept[ConfigException.WrongType](config.get[AllSimpleTypesWithCaseOptional]("invalidAllList"))
     }
+
+    it("should throw an illegal argument exception if trying to parse Option[List[T]]") {
+      intercept[IllegalArgumentException](config.get[InvalidOptionalList]("empty"))
+    }
   }
 
   private def config = ConfigFactory.load().getConfig("test")

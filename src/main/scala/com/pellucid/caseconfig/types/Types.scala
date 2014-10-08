@@ -64,7 +64,12 @@ object Types {
     if (isCustomCaseClass(tpe)) {
       CaseClassType(tpe)
     } else if (tpe.isSub[Option[Any]]) {
-      OptionType(innerTpe(tpe, ru.newTermName("get")))
+      val optionInnerTpe = innerTpe(tpe, ru.newTermName("get"))
+      if (optionInnerTpe.isSub[List[Any]])
+        throw new IllegalArgumentException(s"""
+          Attempted to get optional type Option[List[T]], which is not supported due to type erasure.\n\n
+          Use com.pellucid.caseconfig.lists.OptionalList[T] instead.""")
+      OptionType(optionInnerTpe)
     } else if (tpe.isSub[OptionalList[Any]]) {
       OptionalListType(innerTpe(tpe, ru.newTermName("head")))
     } else if (tpe.isSub[List[Any]]) {

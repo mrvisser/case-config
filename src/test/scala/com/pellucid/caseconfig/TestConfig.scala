@@ -59,3 +59,5 @@ case class AllSimpleTypesWithCaseOptional(
   number: Option[Number],
   numberList: OptionalList[Number]
 )
+
+case class InvalidOptionalList(optionalList: Option[List[String]])
