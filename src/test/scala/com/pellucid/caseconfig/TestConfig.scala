@@ -14,7 +14,13 @@ case class AllSimpleTypesRequired(
   duration: Duration,
   durationList: List[Duration],
   number: Number,
-  numberList: List[Number]
+  numberList: List[Number],
+  double: Double,
+  doubleList: List[Double],
+  long: Long,
+  longList: List[Long],
+  bytes: Bytes,
+  bytesList: List[Bytes]
 )
 
 case class AllSimpleTypesOptional(
@@ -27,7 +33,13 @@ case class AllSimpleTypesOptional(
   duration: Option[Duration],
   durationList: OptionalList[Duration],
   number: Option[Number],
-  numberList: OptionalList[Number]
+  numberList: OptionalList[Number],
+  double: Option[Double],
+  doubleList: OptionalList[Double],
+  long: Option[Long],
+  longList: OptionalList[Long],
+  bytes: Option[Bytes],
+  bytesList: OptionalList[Bytes]
 )
 
 case class AllSimpleTypesWithCaseRequired(
@@ -42,7 +54,13 @@ case class AllSimpleTypesWithCaseRequired(
   duration: Duration,
   durationList: List[Duration],
   number: Number,
-  numberList: List[Number]
+  numberList: List[Number],
+  double: Double,
+  doubleList: List[Double],
+  long: Long,
+  longList: List[Long],
+  bytes: Bytes,
+  bytesList: List[Bytes]
 )
 
 case class AllSimpleTypesWithCaseOptional(
@@ -57,7 +75,13 @@ case class AllSimpleTypesWithCaseOptional(
   duration: Option[Duration],
   durationList: OptionalList[Duration],
   number: Option[Number],
-  numberList: OptionalList[Number]
+  numberList: OptionalList[Number],
+  double: Option[Double],
+  doubleList: OptionalList[Double],
+  long: Option[Long],
+  longList: OptionalList[Long],
+  bytes: Option[Bytes],
+  bytesList: OptionalList[Bytes]
 )
 
 case class InvalidOptionalList(optionalList: Option[List[String]])

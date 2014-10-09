@@ -6,6 +6,8 @@ import scala.reflect.runtime.{universe => ru}
 
 package object caseconfig {
 
+  type Bytes = Long
+
   /**
    * Enhances the [[Config]] type to be able to get a configured object of some
    * provided generic type.
@@ -47,6 +49,6 @@ package object caseconfig {
      * @return      The object parsed from the config value
      */
     def get[T: ru.TypeTag](path: String): T =
-      Types.fromTpe(ru.typeOf[T]).get(config, path).asInstanceOf[T]
+      Types.fromTpe(ru.typeOf[T], None).get(config, path).asInstanceOf[T]
   }
 }
