@@ -27,7 +27,7 @@ val config = ConfigFactory.parseString(
 val myfield = config.get[String]("myfield")
 ```
 
-Reuslt: `myfield = "my value"`
+Result: `myfield = "my value"`
 
 An error when it does not exist:
 ```scala
@@ -87,10 +87,10 @@ Result: `myfield = None`
 
   * Use of plain `Option[List[A]]` is not supported due to type erasure.
     Instead, use `OptionalList[A]`. There are plans to switch to shapeless to
-    alleviate this restriction in a later version. Use of `List
+    alleviate this restriction in a later version
   * Use the `Bytes` to instruct caseconfig to parse the configuration value in
     bytes notation (e.g., `5 MB`). `Bytes` is however a type alias for `Long`
-    which is how TypeSafe Config represents the parsed value.
+    which is how TypeSafe Config represents the parsed value
 
 ```
 import com.pellucid.caseconfig._
