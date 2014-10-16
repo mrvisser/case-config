@@ -2,8 +2,7 @@ package com.pellucid.caseconfig.types
 
 import java.util.concurrent.TimeUnit
 
-import com.pellucid.caseconfig.Bytes
-import com.pellucid.caseconfig.lists.OptionalList
+import com.pellucid.caseconfig.{Bytes, OptionalList}
 import com.typesafe.config.Config
 
 import scala.collection.JavaConversions._

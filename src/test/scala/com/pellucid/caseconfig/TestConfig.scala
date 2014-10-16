@@ -1,7 +1,5 @@
 package com.pellucid.caseconfig
 
-import com.pellucid.caseconfig.lists.OptionalList
-
 import scala.concurrent.duration.Duration
 
 case class AllSimpleTypesRequired(

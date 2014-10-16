@@ -9,6 +9,28 @@ package object caseconfig {
   type Bytes = Long
 
   /**
+   * Utility class that dodges type erasure of Option[List[T]] when trying to have
+   * a configuration object that is an optional list of some generic type.
+   *
+   * @param listOpt The {{{Option[List[T]]}}} that was parsed from the configuration
+   * @tparam T      The generic type of the elements of the list, if it exists
+   */
+  case class OptionalList[+T: ru.TypeTag](listOpt: Option[List[T]]) {
+
+    /**
+     * Convenience method to support getting the runtime type of the inner List.
+     * The OptionalList.head member's return type is inspected to get the concrete
+     * type of T at runtime.
+     */
+    def head: T = {
+      listOpt match {
+        case None => null.asInstanceOf[T]
+        case Some(list) => list.head
+      }
+    }
+  }
+
+  /**
    * Enhances the [[Config]] type to be able to get a configured object of some
    * provided generic type.
    *

@@ -1,10 +1,10 @@
 package com.pellucid.caseconfig
 
-import com.pellucid.caseconfig.lists.OptionalList
 import com.typesafe.config.{ConfigException, ConfigFactory}
 import org.scalatest.{Matchers, FunSpec}
 
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
 
