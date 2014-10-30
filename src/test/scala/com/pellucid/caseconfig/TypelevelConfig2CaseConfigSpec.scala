@@ -312,6 +312,10 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
     it("should throw an illegal argument exception if trying to parse Option[List[T]]") {
       intercept[IllegalArgumentException](config.get[InvalidOptionalList]("empty"))
     }
+
+    it("should parse a hyphenated config name without any issues") {
+      config.get[TestHyphenatedName] should be(TestHyphenatedName(`Test-Hyphenated-Name`(42)))
+    }
   }
 
   private def config = ConfigFactory.load().getConfig("test")

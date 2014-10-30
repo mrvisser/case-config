@@ -83,3 +83,6 @@ case class AllSimpleTypesWithCaseOptional(
 )
 
 case class InvalidOptionalList(optionalList: Option[List[String]])
+
+case class TestHyphenatedName(`test-hyphenated-name`: `Test-Hyphenated-Name`)
+case class `Test-Hyphenated-Name`(`hyphenated-name-value`: Int)
