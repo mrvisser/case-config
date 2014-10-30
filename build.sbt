@@ -1,21 +1,33 @@
-organization := "com.pellucid"
+organization in ThisBuild := "com.pellucid"
 
-name := "case-config"
+name in ThisBuild := "case-config"
 
-scalaVersion := "2.11.2"
+scalaVersion in ThisBuild := "2.11.2"
 
-crossScalaVersions := Seq("2.10.4", "2.11.2")
+//crossScalaVersions := Seq("2.10.4", "2.11.2")
 
-scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked", "-language:higherKinds")
+scalacOptions in ThisBuild ++= Seq("-deprecation", "-feature", "-unchecked", "-language:higherKinds")
 
-resolvers ++= Seq(
+resolvers in ThisBuild ++= Seq(
   Resolver.sonatypeRepo("releases"),
   Resolver.sonatypeRepo("snapshots")
 )
 
-libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-compiler" % _)
+libraryDependencies in ThisBuild <+= scalaVersion("org.scala-lang" % "scala-compiler" % _)
 
-libraryDependencies ++= Seq(
-  "com.typesafe"  %   "config"      % "1.2.1",
-  "org.scalatest" %%  "scalatest"   % "2.2.1" % "test"
+libraryDependencies in ThisBuild ++= Seq(
+  Dependencies.Compile.typesafeConfig,
+  Dependencies.Test.scalaTest
 )
+
+def ccProject(name: String) =
+  Project(name, file(s"modules/$name"))
+
+lazy val root =
+  Project("case-config-root", file("."))
+    .aggregate(core)
+    .aggregate(macros)
+
+lazy val core = ccProject("core")
+
+lazy val macros = ccProject("macros")
