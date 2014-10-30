@@ -28,6 +28,8 @@ lazy val root =
     .aggregate(core)
     .aggregate(macros)
 
-lazy val core = ccProject("core")
+lazy val core =
+  ccProject("core")
+    .dependsOn(macros)
 
 lazy val macros = ccProject("macros")
