@@ -6,7 +6,13 @@ scalaVersion in ThisBuild := "2.11.2"
 
 //crossScalaVersions := Seq("2.10.4", "2.11.2")
 
-scalacOptions in ThisBuild ++= Seq("-deprecation", "-feature", "-unchecked", "-language:higherKinds")
+scalacOptions in ThisBuild ++= Seq(
+  "-deprecation",
+  "-feature",
+  "-unchecked",
+  "-language:higherKinds",
+  "-language:experimental.macros"
+)
 
 resolvers in ThisBuild ++= Seq(
   Resolver.sonatypeRepo("releases"),
