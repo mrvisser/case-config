@@ -178,8 +178,17 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
       // This works: implicit List[T] where T is a case class
       //config.getConfig("allWithCase0").get[List[AllSimpleTypesRequired]]("allList") should be(allWithCase0Required.allList)
 
+      // This works: case class that contains Lists of simple types
+      //config.getConfig("allSimpleTypes0").get[AllSimpleTypesRequired] should be(allSimpleTypes0Required)
+
+      // This works: case class that contains Options of simple types
+      //config.getConfig("allSimpleTypes0").get[AllSimpleTypesOptional] should be(allSimpleTypes0Optional)
+
+      // This fails: case class that contains Option[T] where T is a case class
+      config.getConfig("allWithCase0").get[AllSimpleTypesWithCaseOptional] should be(allWithCase0Optional)
+
       // This fails: case class that contains List[T] where T is a case class
-      config.getConfig("allWithCase0").get[AllSimpleTypesWithCaseRequired] should be(allWithCase0Required)
+      //config.getConfig("allWithCase0").get[AllSimpleTypesWithCaseRequired] should be(allWithCase0Required)
     }
   }
 

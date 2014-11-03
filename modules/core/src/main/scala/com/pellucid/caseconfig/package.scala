@@ -16,6 +16,9 @@ package object caseconfig {
 
     object CTypeExtractor extends LowPriorityExtractors1 {
 
+      def extract[T: CTypeExtractor](config: Config, pathOpt: Option[String]) =
+        implicitly[CTypeExtractor[T]].apply(config, pathOpt)
+
       /**
        * Extractors for simple types:
        *
@@ -46,7 +49,7 @@ package object caseconfig {
       implicit val durationListExtractor: CTypeExtractor[List[Duration]] = simpleCTypeExtractor(_.getDurationList(_, TimeUnit.MILLISECONDS).map(_.longValue.milliseconds).toList)
 
       /**
-       * Extractor for an Option[A: CTypeExtractor]
+       * Extractor for an Option[T: CTypeExtractor]
        */
       implicit def optionExtractor[T: CTypeExtractor]: CTypeExtractor[Option[T]] =
         simpleCTypeExtractor { (config, path) =>
@@ -111,8 +114,10 @@ package object caseconfig {
         if (!ccTpe.isClass || !ccTpe.asClass.isCaseClass)
           c.abort(c.enclosingPosition, s"$ccTpe is not a simple type or a case class")
 
+        val companion = ccTpe.companion
+
         // Extract the constructor arguments from the case class
-        val args = ccTpe
+        val ccArgs = ccTpe
           .typeSignature
           .declarations
           .toList
@@ -120,12 +125,15 @@ package object caseconfig {
             case term: TermSymbol if term.isVal && term.isCaseAccessor => term
           }
           .map { termSymbol =>
-            val path = c.literal(termSymbol.name.toString)
+            val path = c.literal(termSymbol.name.decoded.toString)
             // For each case accessor, we want to recursively extract their
             // inner type using an implicit extractor
             q"""
-              implicitly[_root_.com.pellucid.caseconfig.extractors.CTypeExtractor[${termSymbol.typeSignature}]]
-                .apply(targetConfig, Some($path))
+              _root_.com.pellucid.caseconfig.extractors.CTypeExtractor
+                .extract[${termSymbol.typeSignature}](
+                  targetConfig,
+                  Some($path)
+                )
             """
           }
 
@@ -138,7 +146,7 @@ package object caseconfig {
                 case Some(path) => config.getConfig(path)
               }
 
-              new $ccTpe(..$args)
+              $companion(..$ccArgs)
             }
           }
         """
