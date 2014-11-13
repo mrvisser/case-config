@@ -16,9 +16,6 @@ package object caseconfig {
 
     object CTypeExtractor extends LowPriorityExtractors1 {
 
-      def extract[T: CTypeExtractor](config: Config, pathOpt: Option[String]) =
-        implicitly[CTypeExtractor[T]].apply(config, pathOpt)
-
       /**
        * Extractors for simple types:
        *
@@ -125,18 +122,14 @@ package object caseconfig {
           .map { termSymbol =>
             val path = c.literal(termSymbol.name.decoded.toString)
             // For each case accessor, we want to recursively extract their
-            // inner type using an implicit extractor. Note that the `def dummy`
-            // portion is in place to jump through some hoops to get the scala
-            // compiler to properly perform implicit recursion and not wind up
-            // with divergent implicit errors
+            // inner type using an implicit extractor. Note that the bizarre use
+            // of the `def extractor` is a work-around so that the scala
+            // compiler is able to perform implicit recursion without running
+            // into divergent implicit issues as a result of some arbitrary
+            // heuristics
             q"""
-              def dummy(implicit ev: _root_.com.pellucid.caseconfig.extractors.CTypeExtractor[${termSymbol.typeSignature}]) = ev
-
-              _root_.com.pellucid.caseconfig.extractors.CTypeExtractor
-                .extract[${termSymbol.typeSignature}](
-                  targetConfig,
-                  Some($path)
-                )(dummy)
+              def extractor(implicit ev: _root_.com.pellucid.caseconfig.extractors.CTypeExtractor[${termSymbol.typeSignature}]) = ev
+              extractor.apply(targetConfig, Some($path))
             """
           }
 
