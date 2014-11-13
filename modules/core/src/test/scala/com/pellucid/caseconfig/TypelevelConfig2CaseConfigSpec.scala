@@ -172,65 +172,44 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
     None
   )
 
-  describe("get") {
-    it("a type") {
-
-      // This works: implicit List[T] where T is a case class
-      //config.getConfig("allWithCase0").get[List[AllSimpleTypesRequired]]("allList") should be(allWithCase0Required.allList)
-
-      // This works: case class that contains Lists of simple types
-      //config.getConfig("allSimpleTypes0").get[AllSimpleTypesRequired] should be(allSimpleTypes0Required)
-
-      // This works: case class that contains Options of simple types
-      //config.getConfig("allSimpleTypes0").get[AllSimpleTypesOptional] should be(allSimpleTypes0Optional)
-
-      // This fails: case class that contains Option[T] where T is a case class
-      config.getConfig("allWithCase0").get[AllSimpleTypesWithCaseOptional] should be(allWithCase0Optional)
-
-      // This fails: case class that contains List[T] where T is a case class
-      //config.getConfig("allWithCase0").get[AllSimpleTypesWithCaseRequired] should be(allWithCase0Required)
-    }
-  }
-
-  /*
   describe("get()") {
 
     it("should not work on non-case class types") {
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[String])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Int])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Boolean])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Duration])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Number])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Double])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Long])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Bytes])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[String])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Int])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Boolean])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Duration])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Number])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Double])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Long])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Bytes])
 
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[String]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Int]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Boolean]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Duration]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Number]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Double]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Long]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Bytes]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[String]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[Int]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[Boolean]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[Duration]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[Number]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[Double]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[Long]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[Bytes]])
 
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[String]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Int]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Boolean]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Duration]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Number]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Double]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Long]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Bytes]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[List[String]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[List[Int]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[List[Boolean]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[List[Duration]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[List[Number]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[List[Double]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[List[Long]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[List[Bytes]])
 
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[List[String]]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[List[Int]]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[List[Boolean]]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[List[Duration]]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[List[Number]]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[List[Double]]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[List[Long]]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[List[Bytes]]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[List[String]]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[List[Int]]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[List[Boolean]]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[List[Duration]]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[List[Number]]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[List[Double]]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[List[Long]]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[List[Bytes]]])
     }
 
     it("should parse a case class from config recursively with all known simple types") {
@@ -250,7 +229,6 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
     }
 
     it("should throw a proper config exception if a field type is invalid") {
-      // TODO: Return an Either[E, T] instead of throwing an exception
       intercept[ConfigException.WrongType](config.getConfig("invalidStringList").get[AllSimpleTypesOptional])
       intercept[ConfigException.WrongType](config.getConfig("invalidInt").get[AllSimpleTypesOptional])
       intercept[ConfigException.WrongType](config.getConfig("invalidIntList").get[AllSimpleTypesOptional])
@@ -268,7 +246,7 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
   describe("get(String)") {
 
     it("should parse an optional string") {
-      config.get[Option[String]]("allSimpleTypes0.string") should be(Some(allSimpleTypes0Optional.string))
+      config.get[Option[String]]("allSimpleTypes0.string") should be(allSimpleTypes0Optional.string)
     }
 
     it("should parse a config path into simple types directly") {
@@ -314,7 +292,6 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
     }
 
     it("should throw a proper config exception if a field type is invalid") {
-      // TODO: Return an Either[E, T] instead of throwing an exception
       intercept[ConfigException.WrongType](config.get[AllSimpleTypesOptional]("invalidStringList"))
       intercept[ConfigException.WrongType](config.get[AllSimpleTypesOptional]("invalidInt"))
       intercept[ConfigException.WrongType](config.get[AllSimpleTypesOptional]("invalidIntList"))
@@ -334,14 +311,10 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
       intercept[ConfigException.WrongType](config.get[AllSimpleTypesWithCaseOptional]("invalidAllList"))
     }
 
-    it("should throw an illegal argument exception if trying to parse Option[List[T]]") {
-      intercept[IllegalArgumentException](config.get[InvalidOptionalList]("empty"))
-    }
-
     it("should parse a hyphenated config name without any issues") {
       config.get[TestHyphenatedName] should be(TestHyphenatedName(`Test-Hyphenated-Name`(42)))
     }
   }
-*/
+
   private def config = ConfigFactory.load().getConfig("test")
 }

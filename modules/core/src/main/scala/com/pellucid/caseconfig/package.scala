@@ -108,8 +108,6 @@ package object caseconfig {
         import c.universe._
         val ccTpe = weakTypeOf[T].typeSymbol
 
-        println(s"ccTpe is: $ccTpe")
-
         // Generic type that is not a simple type can only be a case class
         if (!ccTpe.isClass || !ccTpe.asClass.isCaseClass)
           c.abort(c.enclosingPosition, s"$ccTpe is not a simple type or a case class")
@@ -127,13 +125,18 @@ package object caseconfig {
           .map { termSymbol =>
             val path = c.literal(termSymbol.name.decoded.toString)
             // For each case accessor, we want to recursively extract their
-            // inner type using an implicit extractor
+            // inner type using an implicit extractor. Note that the `def dummy`
+            // portion is in place to jump through some hoops to get the scala
+            // compiler to properly perform implicit recursion and not wind up
+            // with divergent implicit errors
             q"""
+              def dummy(implicit ev: _root_.com.pellucid.caseconfig.extractors.CTypeExtractor[${termSymbol.typeSignature}]) = ev
+
               _root_.com.pellucid.caseconfig.extractors.CTypeExtractor
                 .extract[${termSymbol.typeSignature}](
                   targetConfig,
                   Some($path)
-                )
+                )(dummy)
             """
           }
 
@@ -151,7 +154,6 @@ package object caseconfig {
           }
         """
 
-        println(tree)
         c.Expr[CTypeExtractor[T]](tree)
       }
     }

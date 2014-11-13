@@ -82,7 +82,5 @@ case class AllSimpleTypesWithCaseOptional(
   bytesList: Option[List[Bytes]]
 )
 
-case class InvalidOptionalList(optionalList: Option[List[String]])
-
 case class TestHyphenatedName(`test-hyphenated-name`: `Test-Hyphenated-Name`)
 case class `Test-Hyphenated-Name`(`hyphenated-name-value`: Int)
