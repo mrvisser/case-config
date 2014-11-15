@@ -18,24 +18,23 @@ object ExtractorMacros {
 
     // Extract the constructor arguments from the case class
     val ccArgs = macrocompat.declarations(c)(ccTpe.typeSignature)
-      .toList
       .collect {
-      case term: TermSymbol if term.isVal && term.isCaseAccessor => term
-    }
+        case term: TermSymbol if term.isVal && term.isCaseAccessor => term: TermSymbol
+      }
       .map { termSymbol =>
-      val path = q"${macrocompat.decodedName(c)(termSymbol)}"
+        val path = q"${macrocompat.decodedName(c)(termSymbol)}"
 
-      // For each case accessor, we want to recursively extract their
-      // inner type using an implicit extractor. Note that the bizarre use
-      // of the `def extractor` is a work-around so that the scala
-      // compiler is able to perform implicit recursion without running
-      // into divergent implicit issues as a result of some arbitrary
-      // heuristics
-      q"""
+        // For each case accessor, we want to recursively extract their
+        // inner type using an implicit extractor. Note that the bizarre use
+        // of the `def extractor` is a work-around so that the scala
+        // compiler is able to perform implicit recursion without running
+        // into divergent implicit issues as a result of some arbitrary
+        // heuristics
+        q"""
           def extractor(implicit ev: _root_.com.pellucid.caseconfig.extractors.CTypeExtractor[${termSymbol.typeSignature}]) = ev
           extractor.apply(targetConfig, Some($path))
         """
-    }
+      }
 
     // Create our implicit extractor for the case class type
     val tree = q"""

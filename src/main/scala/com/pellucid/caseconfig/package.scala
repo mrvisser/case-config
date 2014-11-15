@@ -4,8 +4,6 @@ import com.typesafe.config.Config
 
 package object caseconfig {
 
-  case class Bytes(bytes: Long)
-
   /**
    * Enhances the [[Config]] type to be able to get a configured object of some
    * provided generic type.

@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit
 import com.pellucid.caseconfig.Bytes
 import com.typesafe.config.Config
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 import scala.concurrent.duration._
 
 trait CTypeExtractor[T] extends ((Config, Option[String]) => T)
@@ -25,21 +25,21 @@ object CTypeExtractor extends LowPriorityExtractors1 {
    *  * Duration, List[Duration]
    */
   implicit val stringExtractor: CTypeExtractor[String] = simpleCTypeExtractor(_.getString(_))
-  implicit val stringListExtractor: CTypeExtractor[List[String]] = simpleCTypeExtractor(_.getStringList(_).toList)
+  implicit val stringListExtractor: CTypeExtractor[List[String]] = simpleCTypeExtractor(_.getStringList(_).asScala.toList)
   implicit val intExtractor: CTypeExtractor[Int] = simpleCTypeExtractor(_.getInt(_))
-  implicit val intListExtractor: CTypeExtractor[List[Int]] = simpleCTypeExtractor(_.getIntList(_).map(_.intValue).toList)
+  implicit val intListExtractor: CTypeExtractor[List[Int]] = simpleCTypeExtractor(_.getIntList(_).asScala.map(_.intValue).toList)
   implicit val booleanExtractor: CTypeExtractor[Boolean] = simpleCTypeExtractor(_.getBoolean(_))
-  implicit val booleanListExtractor: CTypeExtractor[List[Boolean]] = simpleCTypeExtractor(_.getBooleanList(_).map(_.booleanValue).toList)
+  implicit val booleanListExtractor: CTypeExtractor[List[Boolean]] = simpleCTypeExtractor(_.getBooleanList(_).asScala.map(_.booleanValue).toList)
   implicit val doubleExtractor: CTypeExtractor[Double] = simpleCTypeExtractor(_.getDouble(_))
-  implicit val doubleListExtractor: CTypeExtractor[List[Double]] = simpleCTypeExtractor(_.getDoubleList(_).map(_.doubleValue).toList)
+  implicit val doubleListExtractor: CTypeExtractor[List[Double]] = simpleCTypeExtractor(_.getDoubleList(_).asScala.map(_.doubleValue).toList)
   implicit val longExtractor: CTypeExtractor[Long] = simpleCTypeExtractor(_.getLong(_))
-  implicit val longListExtractor: CTypeExtractor[List[Long]] = simpleCTypeExtractor(_.getLongList(_).map(_.longValue).toList)
+  implicit val longListExtractor: CTypeExtractor[List[Long]] = simpleCTypeExtractor(_.getLongList(_).asScala.map(_.longValue).toList)
   implicit val bytesExtractor: CTypeExtractor[Bytes] = simpleCTypeExtractor((config, path) => Bytes(config.getBytes(path).longValue))
-  implicit val bytesListExtractor: CTypeExtractor[List[Bytes]] = simpleCTypeExtractor((config, path) => config.getBytesList(path).map(v => Bytes(v.longValue)).toList)
+  implicit val bytesListExtractor: CTypeExtractor[List[Bytes]] = simpleCTypeExtractor((config, path) => config.getBytesList(path).asScala.map(v => Bytes(v.longValue)).toList)
   implicit val numberExtractor: CTypeExtractor[Number] = simpleCTypeExtractor(_.getNumber(_))
-  implicit val numberListExtractor: CTypeExtractor[List[Number]] = simpleCTypeExtractor(_.getNumberList(_).toList)
+  implicit val numberListExtractor: CTypeExtractor[List[Number]] = simpleCTypeExtractor(_.getNumberList(_).asScala.toList)
   implicit val durationExtractor: CTypeExtractor[Duration] = simpleCTypeExtractor(_.getDuration(_, TimeUnit.MILLISECONDS).milliseconds)
-  implicit val durationListExtractor: CTypeExtractor[List[Duration]] = simpleCTypeExtractor(_.getDurationList(_, TimeUnit.MILLISECONDS).map(_.longValue.milliseconds).toList)
+  implicit val durationListExtractor: CTypeExtractor[List[Duration]] = simpleCTypeExtractor(_.getDurationList(_, TimeUnit.MILLISECONDS).asScala.map(_.longValue.milliseconds).toList)
 
   /**
    * Extractor for an Option[T: CTypeExtractor]
@@ -61,7 +61,7 @@ trait LowPriorityExtractors1 extends LowPriorityExtractors0 {
    * a case class.
    */
   implicit def caseClassListExtractor[T: CTypeExtractor]: CTypeExtractor[List[T]] =
-    simpleCTypeExtractor(_.getConfigList(_).map(implicitly[CTypeExtractor[T]].apply(_, None)).toList)
+    simpleCTypeExtractor(_.getConfigList(_).asScala.map(implicitly[CTypeExtractor[T]].apply(_, None)).toList)
 }
 
 trait LowPriorityExtractors0 {
