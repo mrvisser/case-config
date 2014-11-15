@@ -4,7 +4,7 @@ name := "case-config"
 
 scalaVersion := "2.11.2"
 
-//crossScalaVersions := Seq("2.10.4", "2.11.2")
+crossScalaVersions := Seq("2.10.4", "2.11.2")
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -25,3 +25,15 @@ libraryDependencies ++= Seq(
   Dependencies.Compile.typesafeConfig,
   Dependencies.Test.scalaTest
 )
+
+libraryDependencies := {
+  // Only include macro paradise + quasi-quotes plugin for scala 2.10
+  CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, scalaMajor)) if scalaMajor >= 11 => libraryDependencies.value
+    case Some((2, 10)) =>
+      libraryDependencies.value ++ Seq(
+        compilerPlugin(Dependencies.Compiler.macroParadise),
+        Dependencies.Compile.quasiQuotes
+      )
+  }
+}
