@@ -1,34 +1,8 @@
 package com.pellucid
 
-import com.pellucid.caseconfig.types.Types
 import com.typesafe.config.Config
-import scala.reflect.runtime.{universe => ru}
 
 package object caseconfig {
-
-  type Bytes = Long
-
-  /**
-   * Utility class that dodges type erasure of Option[List[T]] when trying to have
-   * a configuration object that is an optional list of some generic type.
-   *
-   * @param listOpt The {{{Option[List[T]]}}} that was parsed from the configuration
-   * @tparam T      The generic type of the elements of the list, if it exists
-   */
-  case class OptionalList[+T: ru.TypeTag](listOpt: Option[List[T]]) {
-
-    /**
-     * Convenience method to support getting the runtime type of the inner List.
-     * The OptionalList.head member's return type is inspected to get the concrete
-     * type of T at runtime.
-     */
-    def head: T = {
-      listOpt match {
-        case None => null.asInstanceOf[T]
-        case Some(list) => list.head
-      }
-    }
-  }
 
   /**
    * Enhances the [[Config]] type to be able to get a configured object of some
@@ -54,6 +28,7 @@ package object caseconfig {
    *  * Option of any of the above types
    */
   implicit class TypelevelConfig2CaseConfig(config: Config) {
+    import extractors._
 
     /**
      * Get the configuration object as the provided case class.
@@ -61,7 +36,8 @@ package object caseconfig {
      * @tparam T  The type of case class into which to parse the configuration
      * @return    The case class created with the configuration
      */
-    def get[T: ru.TypeTag]: T = get[T]("")
+    def get[T: CTypeExtractor]: T =
+      implicitly[CTypeExtractor[T]].apply(config, None)
 
     /**
      * Get the configuration value at the provided path as the provided type.
@@ -70,7 +46,7 @@ package object caseconfig {
      * @tparam T    The type as which to parse the config value
      * @return      The object parsed from the config value
      */
-    def get[T: ru.TypeTag](path: String): T =
-      Types.fromTpe(ru.typeOf[T], None).get(config, path).asInstanceOf[T]
+    def get[T: CTypeExtractor](path: String): T =
+      implicitly[CTypeExtractor[T]].apply(config, Some(path))
   }
 }

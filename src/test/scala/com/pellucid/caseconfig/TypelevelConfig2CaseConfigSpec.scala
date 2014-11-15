@@ -9,9 +9,9 @@ import scala.language.postfixOps
 class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
 
   implicit class double2Bytes(num: Double) {
-    def kb = (num * 1000).toLong
-    def mb = (num * 1000 * 1000).toLong
-    def gb = (num * 1000 * 1000 * 1000).toLong
+    def kb = Bytes((num * 1000).toLong)
+    def mb = Bytes((num * 1000 * 1000).toLong)
+    def gb = Bytes((num * 1000 * 1000 * 1000).toLong)
   }
 
   val allSimpleTypes0Required = AllSimpleTypesRequired(
@@ -30,45 +30,45 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
     25,
     List[Long](0, 15, 24),
     25 mb,
-    List[Bytes](0, 15 gb, 24 gb)
+    List[Bytes](0 gb, 15 gb, 24 gb)
   )
 
   val allSimpleTypes0Optional = AllSimpleTypesOptional(
     Some("hello"),
-    OptionalList(Some(List("a", "b", "c", "d"))),
+    Some(List("a", "b", "c", "d")),
     Some(0),
-    OptionalList(Some(List(0, 1, 2, 3))),
+    Some(List(0, 1, 2, 3)),
     Some(false),
-    OptionalList(Some(List(true, false))),
+    Some(List(true, false)),
     Some(5 minutes),
-    OptionalList(Some(List[Duration](1 second, 2 seconds, 5 minutes))),
+    Some(List[Duration](1 second, 2 seconds, 5 minutes)),
     Some(2.5),
-    OptionalList(Some(List[Number](0, 1.5, 2.4))),
+    Some(List[Number](0, 1.5, 2.4)),
     Some(2.5),
-    OptionalList(Some(List[Double](0, 1.5, 2.4))),
+    Some(List[Double](0, 1.5, 2.4)),
     Some(25),
-    OptionalList(Some(List[Long](0, 15, 24))),
+    Some(List[Long](0, 15, 24)),
     Some(25 mb),
-    OptionalList(Some(List[Bytes](0, 15 gb, 24 gb)))
+    Some(List[Bytes](0 gb, 15 gb, 24 gb))
   )
 
   val allSimpleTypes0OptionalEmpty = AllSimpleTypesOptional(
     None,
-    OptionalList(None),
     None,
-    OptionalList(None),
     None,
-    OptionalList(None),
     None,
-    OptionalList(None),
     None,
-    OptionalList(None),
     None,
-    OptionalList(None),
     None,
-    OptionalList(None),
     None,
-    OptionalList(None)
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None
   )
 
   val allSimpleTypes1Required = AllSimpleTypesRequired(
@@ -92,21 +92,21 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
 
   val allSimpleTypes1Optional = AllSimpleTypesOptional(
     Some("world"),
-    OptionalList(Some(List("1", "2", "3", "4"))),
+    Some(List("1", "2", "3", "4")),
     Some(1),
-    OptionalList(Some(List(3, 2, 1, 0))),
+    Some(List(3, 2, 1, 0)),
     Some(true),
-    OptionalList(Some(List(false, true))),
+    Some(List(false, true)),
     Some(10 minutes),
-    OptionalList(Some(List[Duration](5 minutes, 2 seconds, 1 second))),
+    Some(List[Duration](5 minutes, 2 seconds, 1 second)),
     Some(8),
-    OptionalList(Some(List[Number](2.4, 8, 1))),
+    Some(List[Number](2.4, 8, 1)),
     Some(8.8),
-    OptionalList(Some(List[Double](2.4, 8.8, 1.1))),
+    Some(List[Double](2.4, 8.8, 1.1)),
     Some(88),
-    OptionalList(Some(List[Long](24, 88, 11))),
+    Some(List[Long](24, 88, 11)),
     Some(88 mb),
-    OptionalList(Some(List[Bytes](2.5 gb, 8.8 gb, 1.1 gb)))
+    Some(List[Bytes](2.5 gb, 8.8 gb, 1.1 gb))
   )
 
   val allWithCase0Required = AllSimpleTypesWithCaseRequired(
@@ -132,84 +132,84 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
 
   val allWithCase0Optional = AllSimpleTypesWithCaseOptional(
     Some("hello"),
-    OptionalList(Some(List("a", "b", "c", "d"))),
+    Some(List("a", "b", "c", "d")),
     Some(0),
-    OptionalList(Some(List(0, 1, 2, 3))),
+    Some(List(0, 1, 2, 3)),
     Some(false),
-    OptionalList(Some(List(true, false))),
+    Some(List(true, false)),
     Some(allSimpleTypes0Required),
-    OptionalList(Some(List(allSimpleTypes0Required, allSimpleTypes1Required))),
+    Some(List(allSimpleTypes0Required, allSimpleTypes1Required)),
     Some(5 minutes),
-    OptionalList(Some(List[Duration](1 second, 2 seconds, 5 minutes))),
+    Some(List[Duration](1 second, 2 seconds, 5 minutes)),
     Some(2.5),
-    OptionalList(Some(List[Number](0, 1.5, 2.4))),
+    Some(List[Number](0, 1.5, 2.4)),
     Some(2.5),
-    OptionalList(Some(List[Double](0, 1.5, 2.4))),
+    Some(List[Double](0, 1.5, 2.4)),
     Some(25),
-    OptionalList(Some(List[Long](0, 15, 24))),
+    Some(List[Long](0, 15, 24)),
     Some(25 mb),
-    OptionalList(Some(List[Bytes](0 gb, 15 gb, 24 gb)))
+    Some(List[Bytes](0 gb, 15 gb, 24 gb))
   )
 
   val allWithCase0OptionalEmpty = AllSimpleTypesWithCaseOptional(
     None,
-    OptionalList(None),
     None,
-    OptionalList(None),
     None,
-    OptionalList(None),
     None,
-    OptionalList(None),
     None,
-    OptionalList(None),
     None,
-    OptionalList(None),
     None,
-    OptionalList(None),
     None,
-    OptionalList(None),
     None,
-    OptionalList(None)
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None
   )
 
   describe("get()") {
 
     it("should not work on non-case class types") {
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[String])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Int])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Boolean])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Duration])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Number])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Double])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Long])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Bytes])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[String])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Int])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Boolean])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Duration])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Number])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Double])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Long])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Bytes])
 
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[String]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Int]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Boolean]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Duration]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Number]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Double]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Long]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[Option[Bytes]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[String]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[Int]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[Boolean]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[Duration]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[Number]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[Double]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[Long]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[Bytes]])
 
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[String]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Int]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Boolean]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Duration]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Number]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Double]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Long]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[List[Bytes]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[List[String]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[List[Int]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[List[Boolean]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[List[Duration]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[List[Number]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[List[Double]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[List[Long]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[List[Bytes]])
 
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[OptionalList[String]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[OptionalList[Int]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[OptionalList[Boolean]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[OptionalList[Duration]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[OptionalList[Number]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[OptionalList[Double]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[OptionalList[Long]])
-      intercept[ConfigException.BadPath](config.getConfig("allSimpleTypes0").get[OptionalList[Bytes]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[List[String]]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[List[Int]]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[List[Boolean]]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[List[Duration]]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[List[Number]]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[List[Double]]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[List[Long]]])
+      intercept[IllegalArgumentException](config.getConfig("allSimpleTypes0").get[Option[List[Bytes]]])
     }
 
     it("should parse a case class from config recursively with all known simple types") {
@@ -229,7 +229,6 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
     }
 
     it("should throw a proper config exception if a field type is invalid") {
-      // TODO: Return an Either[E, T] instead of throwing an exception
       intercept[ConfigException.WrongType](config.getConfig("invalidStringList").get[AllSimpleTypesOptional])
       intercept[ConfigException.WrongType](config.getConfig("invalidInt").get[AllSimpleTypesOptional])
       intercept[ConfigException.WrongType](config.getConfig("invalidIntList").get[AllSimpleTypesOptional])
@@ -245,6 +244,10 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
   }
 
   describe("get(String)") {
+
+    it("should parse an optional string") {
+      config.get[Option[String]]("allSimpleTypes0.string") should be(allSimpleTypes0Optional.string)
+    }
 
     it("should parse a config path into simple types directly") {
       config.get[String]("allSimpleTypes0.string") should be(allSimpleTypes0Required.string)
@@ -265,11 +268,11 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
       config.get[List[Duration]]("allSimpleTypes0.durationList") should be(allSimpleTypes0Required.durationList)
       config.get[List[Number]]("allSimpleTypes0.numberList") should be(allSimpleTypes0Required.numberList)
 
-      config.get[OptionalList[String]]("allSimpleTypes0.stringList") should be(allSimpleTypes0Optional.stringList)
-      config.get[OptionalList[Int]]("allSimpleTypes0.intList") should be(allSimpleTypes0Optional.intList)
-      config.get[OptionalList[Boolean]]("allSimpleTypes0.booleanList") should be(allSimpleTypes0Optional.booleanList)
-      config.get[OptionalList[Duration]]("allSimpleTypes0.durationList") should be(allSimpleTypes0Optional.durationList)
-      config.get[OptionalList[Number]]("allSimpleTypes0.numberList") should be(allSimpleTypes0Optional.numberList)
+      config.get[Option[List[String]]]("allSimpleTypes0.stringList") should be(allSimpleTypes0Optional.stringList)
+      config.get[Option[List[Int]]]("allSimpleTypes0.intList") should be(allSimpleTypes0Optional.intList)
+      config.get[Option[List[Boolean]]]("allSimpleTypes0.booleanList") should be(allSimpleTypes0Optional.booleanList)
+      config.get[Option[List[Duration]]]("allSimpleTypes0.durationList") should be(allSimpleTypes0Optional.durationList)
+      config.get[Option[List[Number]]]("allSimpleTypes0.numberList") should be(allSimpleTypes0Optional.numberList)
     }
 
     it("should parse a config recursively with all known simple types") {
@@ -289,7 +292,6 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
     }
 
     it("should throw a proper config exception if a field type is invalid") {
-      // TODO: Return an Either[E, T] instead of throwing an exception
       intercept[ConfigException.WrongType](config.get[AllSimpleTypesOptional]("invalidStringList"))
       intercept[ConfigException.WrongType](config.get[AllSimpleTypesOptional]("invalidInt"))
       intercept[ConfigException.WrongType](config.get[AllSimpleTypesOptional]("invalidIntList"))
@@ -307,10 +309,6 @@ class TypelevelConfig2CaseConfigSpec extends FunSpec with Matchers {
       intercept[ConfigException.BadValue](config.get[AllSimpleTypesOptional]("invalidBytesList"))
       intercept[ConfigException.WrongType](config.get[AllSimpleTypesWithCaseOptional]("invalidAll"))
       intercept[ConfigException.WrongType](config.get[AllSimpleTypesWithCaseOptional]("invalidAllList"))
-    }
-
-    it("should throw an illegal argument exception if trying to parse Option[List[T]]") {
-      intercept[IllegalArgumentException](config.get[InvalidOptionalList]("empty"))
     }
 
     it("should parse a hyphenated config name without any issues") {

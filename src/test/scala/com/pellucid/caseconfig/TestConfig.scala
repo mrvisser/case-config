@@ -23,21 +23,21 @@ case class AllSimpleTypesRequired(
 
 case class AllSimpleTypesOptional(
   string: Option[String],
-  stringList: OptionalList[String],
+  stringList: Option[List[String]],
   int: Option[Int],
-  intList: OptionalList[Int],
+  intList: Option[List[Int]],
   boolean: Option[Boolean],
-  booleanList: OptionalList[Boolean],
+  booleanList: Option[List[Boolean]],
   duration: Option[Duration],
-  durationList: OptionalList[Duration],
+  durationList: Option[List[Duration]],
   number: Option[Number],
-  numberList: OptionalList[Number],
+  numberList: Option[List[Number]],
   double: Option[Double],
-  doubleList: OptionalList[Double],
+  doubleList: Option[List[Double]],
   long: Option[Long],
-  longList: OptionalList[Long],
+  longList: Option[List[Long]],
   bytes: Option[Bytes],
-  bytesList: OptionalList[Bytes]
+  bytesList: Option[List[Bytes]]
 )
 
 case class AllSimpleTypesWithCaseRequired(
@@ -63,26 +63,24 @@ case class AllSimpleTypesWithCaseRequired(
 
 case class AllSimpleTypesWithCaseOptional(
   string: Option[String],
-  stringList: OptionalList[String],
+  stringList: Option[List[String]],
   int: Option[Int],
-  intList: OptionalList[Int],
+  intList: Option[List[Int]],
   boolean: Option[Boolean],
-  booleanList: OptionalList[Boolean],
+  booleanList: Option[List[Boolean]],
   all: Option[AllSimpleTypesRequired],
-  allList: OptionalList[AllSimpleTypesRequired],
+  allList: Option[List[AllSimpleTypesRequired]],
   duration: Option[Duration],
-  durationList: OptionalList[Duration],
+  durationList: Option[List[Duration]],
   number: Option[Number],
-  numberList: OptionalList[Number],
+  numberList: Option[List[Number]],
   double: Option[Double],
-  doubleList: OptionalList[Double],
+  doubleList: Option[List[Double]],
   long: Option[Long],
-  longList: OptionalList[Long],
+  longList: Option[List[Long]],
   bytes: Option[Bytes],
-  bytesList: OptionalList[Bytes]
+  bytesList: Option[List[Bytes]]
 )
-
-case class InvalidOptionalList(optionalList: Option[List[String]])
 
 case class TestHyphenatedName(`test-hyphenated-name`: `Test-Hyphenated-Name`)
 case class `Test-Hyphenated-Name`(`hyphenated-name-value`: Int)
