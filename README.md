@@ -1,8 +1,8 @@
 ## CaseConfig
 
 CaseConfig is an extension for Typesafe Config that provides a safer and cleaner
-approach to reading in a configuration file. CaseConfig's model-driven approach
-of parsing configuration into types provides validation for "required"
+approach to reading values from a configuration file. CaseConfig's model-driven
+approach of parsing configuration into types provides validation for "required"
 fields and field types for free. It also provides a clearer way of accessing
 configuration fields using case class values instead of `Config` objects of
 `Config` objects, which is analogous to dealing with a heterogeneous `Map` of
@@ -83,22 +83,13 @@ Result: `myfield = None`
 
 ## Example 3: Get a case class from a configuration object
 
-**Notes:**
-
-  * Use of plain `Option[List[A]]` is not supported due to type erasure.
-    Instead, use `OptionalList[A]`. There are plans to switch to shapeless to
-    alleviate this restriction in a later version
-  * Use the `Bytes` to instruct caseconfig to parse the configuration value in
-    bytes notation (e.g., `5 MB`). `Bytes` is however a type alias for `Long`
-    which is how TypeSafe Config represents the parsed value
-
 ```
 import com.pellucid.caseconfig._
 import com.typesafe.config.ConfigFactory
 
 case class CacheConfig(evictionStrategy: String, maxSize: Bytes)
 case class ConnectionPoolConfig(servers: List[String], maxConnections: Int, minConnections: Option[Int])
-case class MyConfig(pool: ConnectionPoolConfig, cache: Option[CacheConfig], latencyPercentiles: OptionalList[Double])
+case class MyConfig(pool: ConnectionPoolConfig, cache: Option[CacheConfig], latencyPercentiles: Optional[List[Double]])
 
 val config = ConfigFactory.parseString(
         """
@@ -129,10 +120,8 @@ myConfig =
             None
         ),
         None,
-        OptionalList(
-            Some(
-                List(50.0, 75.0, 90.0, 95.0, 99.0, 99.9)
-            )
+        Some(
+            List(50.0, 75.0, 90.0, 95.0, 99.0, 99.9)
         )
     )
 ```
