@@ -8,7 +8,7 @@ configuration fields using case class values instead of `Config` objects of
 `Config` objects, which is analogous to dealing with a heterogeneous `Map` of
 `Map`s.
 
-There isn't much to it, so here are some exampels:
+There isn't much to it, so here are some examples:
 
 ## Example 1: Get a required String
 
