@@ -83,7 +83,7 @@ Result: `myfield = None`
 
 ## Example 3: Get a case class from a configuration object
 
-```
+```scala
 import com.pellucid.caseconfig._
 import com.typesafe.config.ConfigFactory
 
