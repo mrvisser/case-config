@@ -83,6 +83,11 @@ Result: `myfield = None`
 
 ## Example 3: Get a case class from a configuration object
 
+If a case class is provided, its fields are decomposed and the case class is
+instantiated using the fields and values from the configuration object. This
+happens recursively, so it is possible to extract case classes nested in case
+classes to build complex configuration objects.
+
 ```scala
 import com.pellucid.caseconfig._
 import com.typesafe.config.ConfigFactory
