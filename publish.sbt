@@ -1,6 +1,6 @@
 
-credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
+bintrayPublishSettings
 
-publishTo := Some("lib-releases-local" at "http://pellucid.artifactoryonline.com/pellucid/libs-releases-local")
+bintray.Keys.bintrayOrganization in bintray.Keys.bintray := Some("pellucid")
 
-publishMavenStyle := true
+bintray.Keys.packageLabels in bintray.Keys.bintray := Seq("scala", "typesafe", "config", "case", "class")
