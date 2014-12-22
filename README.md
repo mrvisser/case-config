@@ -1,4 +1,4 @@
-## CaseConfig
+# CaseConfig
 
 CaseConfig is an extension for Typesafe Config that provides a safer and cleaner
 approach to reading values from a configuration file. CaseConfig's model-driven
@@ -8,9 +8,22 @@ configuration fields using case class values instead of `Config` objects of
 `Config` objects, which is analogous to dealing with a heterogeneous `Map` of
 `Map`s.
 
-There isn't much to it, so here are some examples:
+## Set Up
 
-## Example 1: Get a required String
+CaseConfig is available for both Scala 2.10 and 2.11. If you are using sbt,
+simply add the following to your `build.sbt`:
+
+```
+resolvers += "Pellucid Bintray" at "http://dl.bintray.com/pellucid/maven"
+
+libraryDependencies += "com.pellucid" %% "framian" % "0.3.3"
+```
+
+## Usage
+
+There isn't much to it, so lets just dive into some examples.
+
+### Example 1: Get a required String
 
 Good times when the configuration field exists:
 ```scala
@@ -59,7 +72,7 @@ com.typesafe.config.ConfigException$Missing: No configuration setting found for 
   ... 46 elided
 ```
 
-## Example 2: Get an optional string
+### Example 2: Get an optional string
 
 To specify that a configuration value is optional, its type should be an
 `Option` of its value type. If the field doesn't exist it results in a `None`
@@ -81,7 +94,7 @@ val myfield = config.get[Option[String]]("missing")
 
 Result: `myfield = None`
 
-## Example 3: Get a case class from a configuration object
+### Example 3: Get a case class from a configuration object
 
 If a case class is provided, its fields are decomposed and the case class is
 instantiated using the fields and values from the configuration object. This
