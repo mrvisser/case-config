@@ -23,6 +23,7 @@ object CTypeExtractor extends LowPriorityExtractors1 {
    *  * Bytes, List[Bytes]
    *  * Number, List[Number]
    *  * Duration, List[Duration]
+   *  * Config, List[Config]
    */
   implicit val stringExtractor: CTypeExtractor[String] = simpleCTypeExtractor(_.getString(_))
   implicit val stringListExtractor: CTypeExtractor[List[String]] = simpleCTypeExtractor(_.getStringList(_).asScala.toList)
@@ -40,6 +41,8 @@ object CTypeExtractor extends LowPriorityExtractors1 {
   implicit val numberListExtractor: CTypeExtractor[List[Number]] = simpleCTypeExtractor(_.getNumberList(_).asScala.toList)
   implicit val durationExtractor: CTypeExtractor[Duration] = simpleCTypeExtractor(_.getDuration(_, TimeUnit.MILLISECONDS).milliseconds)
   implicit val durationListExtractor: CTypeExtractor[List[Duration]] = simpleCTypeExtractor(_.getDurationList(_, TimeUnit.MILLISECONDS).asScala.map(_.longValue.milliseconds).toList)
+  implicit val configExtractor: CTypeExtractor[Config] = simpleCTypeExtractor(_.getConfig(_))
+  implicit val configListExtractor: CTypeExtractor[List[Config]] = simpleCTypeExtractor(_.getConfigList(_).asScala.toList)
 
   /**
    * Extractor for an Option[T: CTypeExtractor]
@@ -57,8 +60,8 @@ object CTypeExtractor extends LowPriorityExtractors1 {
 trait LowPriorityExtractors1 extends LowPriorityExtractors0 {
 
   /**
-   * Extractor for a List[A], where A has no simple extractor, so it must be
-   * a case class.
+   * Extractor for a List[A], where A has no simple or option extractor, so it
+   * must be a case class.
    */
   implicit def caseClassListExtractor[T: CTypeExtractor]: CTypeExtractor[List[T]] =
     simpleCTypeExtractor(_.getConfigList(_).asScala.map(implicitly[CTypeExtractor[T]].apply(_, None)).toList)

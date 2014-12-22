@@ -1,5 +1,7 @@
 package com.pellucid.caseconfig
 
+import com.typesafe.config.Config
+
 import scala.concurrent.duration.Duration
 
 case class AllSimpleTypesRequired(
@@ -84,3 +86,9 @@ case class AllSimpleTypesWithCaseOptional(
 
 case class TestHyphenatedName(`test-hyphenated-name`: `Test-Hyphenated-Name`)
 case class `Test-Hyphenated-Name`(`hyphenated-name-value`: Int)
+
+case class TestConfigExtractorRequired(allWithCase0Config: Config,
+  allConfigs: List[Config])
+
+case class TestConfigExtractorOptional(allWithCase0Config: Option[Config],
+  allConfigs: Option[List[Config]])
