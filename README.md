@@ -1,5 +1,10 @@
 # CaseConfig
 
+**Note:** This project is discontinued in favour of
+(Ficus)[https://github.com/iheartradio/ficus]. At the time that I started this
+project I didn't realize Ficus existed. Ficus is essentially the exact same
+thing so it should be a fairly straight forward migration.
+
 CaseConfig is an extension for Typesafe Config that provides a safer and cleaner
 approach to reading values from a configuration file. CaseConfig's model-driven
 approach of parsing configuration into types provides validation for "required"
