@@ -31,14 +31,14 @@ object ExtractorMacros {
         // into divergent implicit issues as a result of some arbitrary
         // heuristics
         q"""
-          def extractor(implicit ev: _root_.com.pellucid.caseconfig.extractors.CTypeExtractor[${termSymbol.typeSignature}]) = ev
+          def extractor(implicit ev: _root_.ca.mrvisser.caseconfig.extractors.CTypeExtractor[${termSymbol.typeSignature}]) = ev
           extractor.apply(targetConfig, Some($path))
         """
       }
 
     // Create our implicit extractor for the case class type
     val tree = q"""
-      new _root_.com.pellucid.caseconfig.extractors.CTypeExtractor[$ccTpe] {
+      new _root_.ca.mrvisser.caseconfig.extractors.CTypeExtractor[$ccTpe] {
         def apply(config: _root_.com.typesafe.config.Config, pathOpt: Option[String]): $ccTpe = {
           val targetConfig = pathOpt match {
             case None => config

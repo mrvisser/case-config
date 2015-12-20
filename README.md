@@ -16,7 +16,7 @@ simply add the following to your `build.sbt`:
 ```
 resolvers += "Pellucid Bintray" at "http://dl.bintray.com/pellucid/maven"
 
-libraryDependencies += "com.pellucid" %% "case-config" % "0.1.2"
+libraryDependencies += "ca.mrvisser" %% "case-config" % "0.1.2"
 ```
 
 ## Usage
@@ -27,7 +27,7 @@ There isn't much to it, so lets just dive into some examples.
 
 Good times when the configuration field exists:
 ```scala
-import com.pellucid.caseconfig._
+import ca.mrvisser.caseconfig._
 import com.typesafe.config.ConfigFactory
 
 val config = ConfigFactory.parseString(
@@ -44,7 +44,7 @@ Result: `myfield = "my value"`
 
 An error when it does not exist:
 ```scala
-import com.pellucid.caseconfig._
+import ca.mrvisser.caseconfig._
 import com.typesafe.config.ConfigFactory
 
 val config = ConfigFactory.parseString(
@@ -66,9 +66,9 @@ com.typesafe.config.ConfigException$Missing: No configuration setting found for 
   at com.typesafe.config.impl.SimpleConfig.find(SimpleConfig.java:159)
   at com.typesafe.config.impl.SimpleConfig.find(SimpleConfig.java:164)
   at com.typesafe.config.impl.SimpleConfig.getString(SimpleConfig.java:206)
-  at com.pellucid.caseconfig.types.Types$StringType$.get(Types.scala:195)
-  at com.pellucid.caseconfig.types.Types$StringType$.get(Types.scala:194)
-  at com.pellucid.caseconfig.package$TypelevelConfig2CaseConfig.get(package.scala:52)
+  at ca.mrvisser.caseconfig.types.Types$StringType$.get(Types.scala:195)
+  at ca.mrvisser.caseconfig.types.Types$StringType$.get(Types.scala:194)
+  at ca.mrvisser.caseconfig.package$TypelevelConfig2CaseConfig.get(package.scala:52)
   ... 46 elided
 ```
 
@@ -79,7 +79,7 @@ To specify that a configuration value is optional, its type should be an
 rather than a validation error.
 
 ```scala
-import com.pellucid.caseconfig._
+import ca.mrvisser.caseconfig._
 import com.typesafe.config.ConfigFactory
 
 val config = ConfigFactory.parseString(
@@ -102,7 +102,7 @@ happens recursively, so it is possible to extract case classes nested in case
 classes to build complex configuration objects.
 
 ```scala
-import com.pellucid.caseconfig._
+import ca.mrvisser.caseconfig._
 import com.typesafe.config.ConfigFactory
 
 case class CacheConfig(evictionStrategy: String, maxSize: Bytes)

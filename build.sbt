@@ -1,4 +1,4 @@
-organization := "com.pellucid"
+organization := "ca.mrvisser"
 
 name := "case-config"
 
