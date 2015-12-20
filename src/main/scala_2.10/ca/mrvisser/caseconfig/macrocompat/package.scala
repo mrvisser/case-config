@@ -1,13 +1,11 @@
-package com.pellucid.caseconfig
-
-import scala.reflect.macros.blackbox
+package ca.mrvisser.caseconfig
 
 package object macrocompat {
-  type Context = blackbox.Context
+  type Context = scala.reflect.macros.Context
 
   def decodedName(c: Context)(symbol: c.universe.TermSymbol): String =
-    symbol.name.decodedName.toString
+    symbol.name.decoded.toString
 
   def declarations(c: Context)(tpe: c.universe.Type): Iterable[c.universe.Symbol] =
-    tpe.decls
+    tpe.declarations
 }

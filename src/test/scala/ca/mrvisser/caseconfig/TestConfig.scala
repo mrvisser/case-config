@@ -1,4 +1,4 @@
-package com.pellucid.caseconfig
+package ca.mrvisser.caseconfig
 
 import com.typesafe.config.Config
 

@@ -1,6 +1,6 @@
-package com.pellucid.caseconfig.extractors
+package ca.mrvisser.caseconfig.extractors
 
-import com.pellucid.caseconfig.macrocompat
+import ca.mrvisser.caseconfig.macrocompat
 
 object ExtractorMacros {
 

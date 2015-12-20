@@ -1,7 +1,7 @@
-package com.pellucid.caseconfig
+package ca.mrvisser.caseconfig
 
 import com.typesafe.config.{Config, ConfigException, ConfigFactory}
-import org.scalatest.{Matchers, FunSpec}
+import org.scalatest.{FunSpec, Matchers}
 
 import scala.concurrent.duration._
 import scala.language.postfixOps

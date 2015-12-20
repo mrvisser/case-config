@@ -1,8 +1,8 @@
-package com.pellucid.caseconfig.extractors
+package ca.mrvisser.caseconfig.extractors
 
 import java.util.concurrent.TimeUnit
 
-import com.pellucid.caseconfig.Bytes
+import ca.mrvisser.caseconfig.Bytes
 import com.typesafe.config.Config
 
 import scala.collection.JavaConverters._

@@ -1,4 +1,4 @@
-package com.pellucid
+package ca.mrvisser
 
 import com.typesafe.config.Config
 
